@@ -1,0 +1,18 @@
+[submodule "backend/lib/forge-std"]
+	path = backend/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std.git
+[submodule "backend/lib/openzeppelin-contracts"]
+	path = backend/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "lib/openzeppelin-contracts"]
+	branch = v4.8.2
+[submodule "backend/lib/axelar-cgp-solidity"]
+	path = backend/lib/axelar-cgp-solidity
+	url = https://github.com/axelarnetwork/axelar-cgp-solidity
+[submodule "lib/axelar-cgp-solidity"]
+	branch = v4.5.0
+[submodule "backend/lib/axelar-gmp-sdk-solidity"]
+	path = backend/lib/axelar-gmp-sdk-solidity
+	url = https://github.com/axelarnetwork/axelar-gmp-sdk-solidity
+[submodule "lib/axelar-gmp-sdk-solidity"]
+	branch = v3.2.1
