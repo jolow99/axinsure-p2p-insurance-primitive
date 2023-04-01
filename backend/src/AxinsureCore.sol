@@ -3,8 +3,9 @@ pragma solidity ^0.8.13;
 
 import "lib/openzeppelin-contracts/contracts/token/ERC20/extensions/IERC20Metadata.sol";
 import "lib/openzeppelin-contracts/contracts/access/Ownable.sol";
-import "lib/axelar-cgp-solidity/contracts/interfaces/IAxelarGateway.sol";
 import "lib/axelar-gmp-sdk-solidity/contracts/utils/AddressString.sol";
+import "lib/axelar-gmp-sdk-solidity/contracts/executable/AxelarExecutable.sol";
+import "lib/axelar-gmp-sdk-solidity/contracts/interfaces/IAxelarGasService.sol";
 
 
 interface IOracle{
@@ -27,12 +28,10 @@ struct UserDetails{
     address userAddress;
 }
 
-contract AxinsureCore is Ownable{
+contract AxinsureCore is Ownable, AxelarExecutable {
     /// Token which premiums are collected and distributed in
     address public paymentToken; 
 
-    /// Axelar Gateway Address on the current chain
-    address public axelarGatewayAddress;
 
     /// Array of all policies
     InsurancePolicy[] public InsurancePolicies;
@@ -43,18 +42,24 @@ contract AxinsureCore is Ownable{
     /// Maps chain to AxinsureCollector address
     mapping (string => address) public axInsureCollectors;
 
+    // / Axelar Variables
+    IAxelarGasService public immutable gasService;
 
-    constructor(address _paymentToken, address _axelarGatewayAddress) {
+
+
+    constructor(address _paymentToken, address _axelarGatewayAddress, address _gasReceiver) AxelarExecutable(_axelarGatewayAddress) {
         paymentToken = _paymentToken;
-        axelarGatewayAddress = _axelarGatewayAddress;
+        gasService = IAxelarGasService(_gasReceiver);
     }
 
     event newPolicyAdded(uint256 indexed policyNumber, address indexed insurerAddress, address oracleAddress, uint256 fundingAmount, uint256 payoutAmount, uint256 premiumsCost);
     event newUserAdded(uint256 indexed policyNumber, string indexed userChain, address userAddress);
 
     /// Creates a new InsurancePolicy
-    function addInsurancePolicy(address oracleAddress, uint256 fundingAmount, uint256 payoutAmount, uint256 premiumsCost) public {
+    function createInsurancePolicy(address oracleAddress, uint256 fundingAmount, uint256 payoutAmount, uint256 premiumsCost) public {
         require(fundingAmount >= premiumsCost, "Funding amount is insufficient to cover premiums");
+
+        // Insurer transfers fund to the insurance policy contract
         IERC20Metadata(paymentToken).transferFrom(msg.sender, address(this), fundingAmount);
         uint256 policyNumber = InsurancePolicies.length + 1;
 
@@ -85,23 +90,22 @@ contract AxinsureCore is Ownable{
         require(insurancePolicy.isPolicyActive, "Policy is not active");
         IOracle oracle = IOracle(insurancePolicy.oracleAddress);
         bool[2] memory oracleResult = oracle.checkOracle();
-        IAxelarGateway axelarGateway = IAxelarGateway(axelarGatewayAddress);
         if (oracleResult[0] && oracleResult[1]) {
             uint256 numOfPolicyUsers = policyUsers[policyNumber].length;
             for (uint256 i = 0; i < numOfPolicyUsers; i++) {
                 // Send payout to each user in the policy
                 UserDetails memory userDetails = policyUsers[policyNumber][i];
-                axelarGateway.sendToken(userDetails.userChain, AddressToString.toString(userDetails.userAddress), IERC20Metadata(paymentToken).symbol(), insurancePolicy.payoutAmount);
+                gateway.sendToken(userDetails.userChain, AddressToString.toString(userDetails.userAddress), IERC20Metadata(paymentToken).symbol(), insurancePolicy.payoutAmount);
             }
             // Send remaining funds to the insurer
             uint256 remainingFunds = insurancePolicy.fundingAmount - numOfPolicyUsers * insurancePolicy.payoutAmount;
-            axelarGateway.sendToken("axelar", AddressToString.toString(insurancePolicy.insurerAddress), IERC20Metadata(paymentToken).symbol(), remainingFunds);
+            gateway.sendToken("axelar", AddressToString.toString(insurancePolicy.insurerAddress), IERC20Metadata(paymentToken).symbol(), remainingFunds);
 
             // Set policy to inactive
             insurancePolicy.isPolicyActive = false;
         } else if (oracleResult[0] && !oracleResult[1]) {
             // Send remaining funds to the insurer
-            axelarGateway.sendToken("axelar", AddressToString.toString(insurancePolicy.insurerAddress), IERC20Metadata(paymentToken).symbol(), insurancePolicy.fundingAmount);
+            gateway.sendToken("axelar", AddressToString.toString(insurancePolicy.insurerAddress), IERC20Metadata(paymentToken).symbol(), insurancePolicy.fundingAmount);
 
             // Set policy to inactive
             insurancePolicy.isPolicyActive = false;
@@ -114,5 +118,25 @@ contract AxinsureCore is Ownable{
     /// Can only be called by the owner of the contract.
     function addCollector(string calldata chain, address collectorAddress) public onlyOwner{
         axInsureCollectors[chain] = collectorAddress;
+    }
+
+    /// Executes addPolicyUser() by the collector contract for core contract.
+    function  _executeWithToken(
+        string calldata sourceChain,
+        string calldata sourceAddress,
+        bytes calldata payload,
+        string calldata,
+        uint256
+    ) internal override {
+        // Decode the payload 
+        (uint256 policyNumber, address userAddress) = abi.decode(payload, (uint256,address));
+        
+        // Check if source address and chain belong in the same mapping
+        // Convert sourceAddress to address type
+        address sourceAddressConverted = StringToAddress.toAddress(sourceAddress);
+
+        require(axInsureCollectors[sourceChain] == sourceAddressConverted, "Source address and chain do not belong in the same mapping");
+
+        addPolicyUser(policyNumber, sourceChain, userAddress);
     }
 }
