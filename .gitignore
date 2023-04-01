@@ -1,2 +1,3 @@
 artifacts/
 cache_hardhat/
+.env
