@@ -28,7 +28,7 @@ async function deploy(chain, wallet) {
   console.log(`Deploying AxinsureOracle for ${chain.name}.`);
   chain.oracleContract = await deployContract(wallet, AxinsureOracle);
   console.log(
-    `Deployed AxinsureOracle for ${chain.name} at ${chain.contract.address}.`
+    `Deployed AxinsureOracle for ${chain.name} at ${chain.oracleContract.address}.`
   );
 
   // Deploy AxinsureCore contract
