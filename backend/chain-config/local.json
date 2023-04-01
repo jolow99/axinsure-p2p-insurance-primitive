@@ -19,7 +19,14 @@
     },
     "rpc": "http://localhost:8500/0",
     "tokenName": "DEV",
-    "tokenSymbol": "DEV"
+    "tokenSymbol": "DEV",
+    "contract": {
+      "abi": [
+        "constructor()",
+        "function checkOracle() pure returns (bool[2])"
+      ],
+      "address": "0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d"
+    }
   },
   {
     "name": "Avalanche",
@@ -41,7 +48,14 @@
     },
     "rpc": "http://localhost:8500/1",
     "tokenName": "Avax",
-    "tokenSymbol": "AVAX"
+    "tokenSymbol": "AVAX",
+    "contract": {
+      "abi": [
+        "constructor()",
+        "function checkOracle() pure returns (bool[2])"
+      ],
+      "address": "0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d"
+    }
   },
   {
     "name": "Fantom",
@@ -63,7 +77,14 @@
     },
     "rpc": "http://localhost:8500/2",
     "tokenName": "Fantom",
-    "tokenSymbol": "FTM"
+    "tokenSymbol": "FTM",
+    "contract": {
+      "abi": [
+        "constructor()",
+        "function checkOracle() pure returns (bool[2])"
+      ],
+      "address": "0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d"
+    }
   },
   {
     "name": "Ethereum",
@@ -85,7 +106,14 @@
     },
     "rpc": "http://localhost:8500/3",
     "tokenName": "Ether",
-    "tokenSymbol": "ETH"
+    "tokenSymbol": "ETH",
+    "contract": {
+      "abi": [
+        "constructor()",
+        "function checkOracle() pure returns (bool[2])"
+      ],
+      "address": "0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d"
+    }
   },
   {
     "name": "Polygon",
@@ -107,6 +135,13 @@
     },
     "rpc": "http://localhost:8500/4",
     "tokenName": "Matic",
-    "tokenSymbol": "MATIC"
+    "tokenSymbol": "MATIC",
+    "contract": {
+      "abi": [
+        "constructor()",
+        "function checkOracle() pure returns (bool[2])"
+      ],
+      "address": "0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d"
+    }
   }
 ]

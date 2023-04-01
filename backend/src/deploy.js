@@ -5,15 +5,15 @@ const {
 } = require("@axelar-network/axelar-local-dev");
 
 const AxinsureCollector = rootRequire(
-  "../artifacts/src/AxinsureCollector.sol/AxinsureCollector.json"
+  "artifacts/src/AxinsureCollector.sol/AxinsureCollector.json"
 );
 
 const AxinsureCore = rootRequire(
-  "../artifacts/src/AxinsureCore.sol/AxinsureCore.json"
+  "artifacts/src/AxinsureCore.sol/AxinsureCore.json"
 );
 
 const AxinsureOracle = rootRequire(
-  "../artifacts/src/AxinsureOracle.sol/AxinsureOracle.json"
+  "artifacts/src/AxinsureOracle.sol/AxinsureOracle.json"
 );
 
 const { defaultAbiCoder } = require("ethers/lib/utils");
@@ -21,10 +21,7 @@ const { defaultAbiCoder } = require("ethers/lib/utils");
 async function deploy(chain, wallet) {
   // Deploy AxinsureOracle contract
   console.log(`Deploying AxinsureOracle for ${chain.name}.`);
-  chain.contract = await deployContract(wallet, AxinsureOracle, [
-    chain.gateway,
-    chain.gasService,
-  ]);
+  chain.contract = await deployContract(wallet, AxinsureOracle);
   console.log(
     `Deployed AxinsureOracle for ${chain.name} at ${chain.contract.address}.`
   );
@@ -97,7 +94,6 @@ async function deploy(chain, wallet) {
 // }
 
 module.exports = {
-  preDeploy,
   deploy,
-  execute,
+  // execute,
 };

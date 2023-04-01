@@ -1,0 +1,24 @@
+{
+  "_format": "hh-sol-artifact-1",
+  "contractName": "IOracle",
+  "sourceName": "src/AxinsureCore.sol",
+  "abi": [
+    {
+      "inputs": [],
+      "name": "checkOracle",
+      "outputs": [
+        {
+          "internalType": "bool[2]",
+          "name": "",
+          "type": "bool[2]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "bytecode": "0x",
+  "deployedBytecode": "0x",
+  "linkReferences": {},
+  "deployedLinkReferences": {}
+}
