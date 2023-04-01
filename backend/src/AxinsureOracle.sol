@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.13;
 
-
-contract AxinsurOracle {
+contract AxinsureOracle {
     struct OracleStatus {
         bool isOracleActive;
         bool isConditionValid;
