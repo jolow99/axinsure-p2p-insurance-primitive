@@ -32,7 +32,7 @@ contract AxinsureCollector is AxelarExecutable{
     }
 
     /// Allows the user to purchase a policy on the host chain
-    function addPolicyUserOnDstChain(uint256 policyNumber, string memory userChain, address userAddress) public payable {
+    function addPolicyUserOnDstChain(uint256 policyNumber) public payable {
         address tokenAddress = gateway.tokenAddresses(paymentToken);
 
         // 1. TODO: Somehow get the insurance policy information from the destination chain
@@ -43,7 +43,7 @@ contract AxinsureCollector is AxelarExecutable{
         IERC20(tokenAddress).approve(address(gateway), premiumsCost);
 
         // 3. Pay gas and transfer the premiums to InsuranceCore and call the addPolicyUser function
-        bytes memory payload = abi.encode(policyNumber, userChain, userAddress);
+        bytes memory payload = abi.encode(policyNumber, msg.sender);
         string memory axinsureCoreDstAddressStr = AddressToString.toString(axinsureCoreDstAddress);
 
         if (msg.value > 0 ) {
