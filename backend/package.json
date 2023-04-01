@@ -31,8 +31,7 @@
     "build-hardhat": "rm -rf artifacts && npx hardhat clean && npx hardhat compile"
   },
   "devDependencies": {
-    "@nomicfoundation/hardhat-foundry": "^1.0.0",
-    "hardhat": "^2.13.0",
+    "hardhat": "^2.9.9",
     "hardhat-gas-reporter": "^1.0.8",
     "mocha": "^10.0.0",
     "solhint": "^3.3.7",
