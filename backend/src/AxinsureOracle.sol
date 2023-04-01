@@ -12,6 +12,6 @@ contract AxinsureOracle {
     function checkOracle() public pure returns (bool[2] memory) {
         // In the future this will be implemented as a chainlink function which queries an external API.
         OracleStatus memory oracleStatus = OracleStatus(true, true);
-        return [oracleStatus.isOracleActive, oracleStatus.isConditionValid];
+        return [oracleStatus.isOracleActive, oracleStatus.isConditionValid]; 
     }
 }
