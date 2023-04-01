@@ -12,6 +12,7 @@ interface IOracle{
 }
 
 struct InsurancePolicy{
+    address insurerAddress;
     address oracleAddress;
     uint256 fundingAmount;
     uint256 payoutAmount;
@@ -33,7 +34,7 @@ contract AxinsureCore is Ownable{
     /// Axelar Gateway Address on the current chain
     address public axelarGatewayAddress;
 
-    // Array of all policies
+    /// Array of all policies
     InsurancePolicy[] public InsurancePolicies;
 
     /// Maps policyNumber to an array of UserDetails
@@ -48,7 +49,7 @@ contract AxinsureCore is Ownable{
         axelarGatewayAddress = _axelarGatewayAddress;
     }
 
-    event newPolicyAdded(uint256 indexed policyNumber,  address oracleAddress, uint256 fundingAmount, uint256 payoutAmount, uint256 premiumsCost);
+    event newPolicyAdded(uint256 indexed policyNumber, address indexed insurerAddress, address oracleAddress, uint256 fundingAmount, uint256 payoutAmount, uint256 premiumsCost);
     event newUserAdded(uint256 indexed policyNumber, string indexed userChain, address userAddress);
 
     /// Creates a new InsurancePolicy
@@ -58,9 +59,9 @@ contract AxinsureCore is Ownable{
         uint256 policyNumber = InsurancePolicies.length + 1;
 
         // Create a new InsurancePolicy struct and add it to the InsurancePolicies array
-        InsurancePolicy memory insurancePolicy = InsurancePolicy(oracleAddress, fundingAmount, payoutAmount, premiumsCost, policyNumber, 0, true);
+        InsurancePolicy memory insurancePolicy = InsurancePolicy(msg.sender, oracleAddress, fundingAmount, payoutAmount, premiumsCost, policyNumber, 0, true);
         InsurancePolicies.push(insurancePolicy);
-        emit newPolicyAdded(policyNumber, oracleAddress, fundingAmount, payoutAmount, premiumsCost);
+        emit newPolicyAdded(policyNumber, msg.sender, oracleAddress, fundingAmount, payoutAmount, premiumsCost);
     }
 
     /// Adds user to a specifc InsurancePolicy 
@@ -86,14 +87,26 @@ contract AxinsureCore is Ownable{
         bool[2] memory oracleResult = oracle.checkOracle();
         IAxelarGateway axelarGateway = IAxelarGateway(axelarGatewayAddress);
         if (oracleResult[0] && oracleResult[1]) {
-            uint256 eachPayout = insurancePolicy.payoutAmount / policyUsers[policyNumber].length;
-            for (uint256 i = 0; i < policyUsers[policyNumber].length; i++) {
+            uint256 numOfPolicyUsers = policyUsers[policyNumber].length;
+            for (uint256 i = 0; i < numOfPolicyUsers; i++) {
                 // Send payout to each user in the policy
                 UserDetails memory userDetails = policyUsers[policyNumber][i];
-                axelarGateway.sendToken(userDetails.userChain, AddressToString.toString(userDetails.userAddress), IERC20Metadata(paymentToken).symbol(), eachPayout);
-
-                // TODO does the policy need to be deleted after payout?
+                axelarGateway.sendToken(userDetails.userChain, AddressToString.toString(userDetails.userAddress), IERC20Metadata(paymentToken).symbol(), insurancePolicy.payoutAmount);
             }
+            // Send remaining funds to the insurer
+            uint256 remainingFunds = insurancePolicy.fundingAmount - numOfPolicyUsers * insurancePolicy.payoutAmount;
+            axelarGateway.sendToken("axelar", AddressToString.toString(insurancePolicy.insurerAddress), IERC20Metadata(paymentToken).symbol(), remainingFunds);
+
+            // Set policy to inactive
+            insurancePolicy.isPolicyActive = false;
+        } else if (oracleResult[0] && !oracleResult[1]) {
+            // Send remaining funds to the insurer
+            axelarGateway.sendToken("axelar", AddressToString.toString(insurancePolicy.insurerAddress), IERC20Metadata(paymentToken).symbol(), insurancePolicy.fundingAmount);
+
+            // Set policy to inactive
+            insurancePolicy.isPolicyActive = false;
+        } else {
+            // Do nothing
         }
     }
 
