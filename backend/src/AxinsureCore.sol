@@ -88,8 +88,12 @@ contract AxinsureCore is Ownable, AxelarExecutable {
     function checkOracleAndPayout(uint256 policyNumber) public {
         InsurancePolicy memory insurancePolicy = InsurancePolicies[policyNumber];
         require(insurancePolicy.isPolicyActive, "Policy is not active");
+
+        // Checks the oracle to see if conditions are met
         IOracle oracle = IOracle(insurancePolicy.oracleAddress);
         bool[2] memory oracleResult = oracle.checkOracle();
+
+        // If conditions are met, send payout to all users in the policy
         if (oracleResult[0] && oracleResult[1]) {
             uint256 numOfPolicyUsers = policyUsers[policyNumber].length;
             for (uint256 i = 0; i < numOfPolicyUsers; i++) {
@@ -99,6 +103,8 @@ contract AxinsureCore is Ownable, AxelarExecutable {
             }
             // Send remaining funds to the insurer
             uint256 remainingFunds = insurancePolicy.fundingAmount - numOfPolicyUsers * insurancePolicy.payoutAmount;
+
+            // TODO: Placeholder
             gateway.sendToken("axelar", AddressToString.toString(insurancePolicy.insurerAddress), IERC20Metadata(paymentToken).symbol(), remainingFunds);
 
             // Set policy to inactive

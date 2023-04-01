@@ -58,7 +58,7 @@ contract AxinsureCollector is AxelarExecutable{
             );
         }
 
-
+        // Calls the contract on the dst chain which has AxinsureCore.sol deployed
         gateway.callContractWithToken(axinsureCoreDstChain, axinsureCoreDstAddressStr, payload, paymentToken, premiumsCost);
         
         // 4. TODO: Add in a check to ensure that the policy was successfully added
