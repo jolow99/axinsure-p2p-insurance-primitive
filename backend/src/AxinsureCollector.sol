@@ -32,18 +32,34 @@ contract AxinsureCollector is AxelarExecutable{
     }
 
     /// Allows the user to purchase a policy on the host chain
-    function addPolicyUserOnDstChain(uint256 policyNumber, string memory userChain, address userAddress) public {
+    function addPolicyUserOnDstChain(uint256 policyNumber, string memory userChain, address userAddress) public payable {
         address tokenAddress = gateway.tokenAddresses(paymentToken);
 
         // 1. TODO: Somehow get the insurance policy information from the destination chain
         uint256 premiumsCost = 100;
 
-        // 2. Collect premiums from the user based on the premiumsCost of the policy
+        // 2. Collect premiums from the user based on the premiumsCost of the policy, and approve gateway to transfer tokens
         IERC20(tokenAddress).transferFrom(msg.sender, address(this), premiumsCost);
+        IERC20(tokenAddress).approve(address(gateway), premiumsCost);
 
-        // 3. Transfer the premiums to InsuranceCore and call the addPolicyUser function
-        bytes memory payload = abi.encodeWithSignature("addPolicyUser(uint256,string,address)", policyNumber, userChain, userAddress);
-        gateway.callContractWithToken(axinsureCoreDstChain, AddressToString.toString(axinsureCoreDstAddress), payload, paymentToken, premiumsCost);
+        // 3. Pay gas and transfer the premiums to InsuranceCore and call the addPolicyUser function
+        bytes memory payload = abi.encode(policyNumber, userChain, userAddress);
+        string memory axinsureCoreDstAddressStr = AddressToString.toString(axinsureCoreDstAddress);
+
+        if (msg.value > 0 ) {
+            gasService.payNativeGasForContractCallWithToken{ value: msg.value}(
+                address(this),
+                axinsureCoreDstChain,
+                axinsureCoreDstAddressStr,
+                payload,
+                paymentToken,
+                premiumsCost,
+                msg.sender
+            );
+        }
+
+
+        gateway.callContractWithToken(axinsureCoreDstChain, axinsureCoreDstAddressStr, payload, paymentToken, premiumsCost);
         
         // 4. TODO: Add in a check to ensure that the policy was successfully added
         
