@@ -3,6 +3,7 @@
 const {
   utils: { deployContract },
 } = require("@axelar-network/axelar-local-dev");
+const { getDefaultProvider, Contract } = require("ethers");
 
 const AxinsureCollector = rootRequire(
   "artifacts/src/AxinsureCollector.sol/AxinsureCollector.json"
@@ -62,18 +63,15 @@ async function deploy(chain, wallet) {
   //   chain.oracleContract.address,
   //   1000,
   //   100,
-  //   10,
-  //   { gasLimit: 200000 }
+  //   10
   // );
   // await addPolicyTx.wait();
-
-  const readFunctionTx = await chain.coreContract.getPaymentToken();
-  // await readFunctionTx.wait();
-  console.log(readFunctionTx);
 }
 
 async function execute(evmChain, wallet, options) {
   // const args = options.args || [];
+
+  const { source, destination, oracleContract } = options;
 
   async function logValue() {
     console.log(

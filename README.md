@@ -41,3 +41,9 @@ Leave this node running on a separate terminal before deploying and testing the 
 ```bash
 npm run start
 ```
+
+4. Deploy singular contract on Testnet
+
+```bash
+npx hardhat run scripts/deploy.ts --network po
+```

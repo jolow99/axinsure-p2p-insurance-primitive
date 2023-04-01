@@ -1,6 +1,9 @@
 require('@nomiclabs/hardhat-waffle');
 require('hardhat-gas-reporter');
 require('solidity-coverage');
+require('dotenv').config();
+require('@nomiclabs/hardhat-ethers');
+require('@nomiclabs/hardhat-etherscan');
 
 /**
  * @type import('hardhat/config').HardhatUserConfig

@@ -1,0 +1,39 @@
+
+> forge-starter@1.0.0 deploy-hardhat
+> node scripts/runDeploy "local"
+
+Deploying AxinsureOracle for Moonbeam.
+Deploying AxinsureOracle for Avalanche.
+Deploying AxinsureOracle for Fantom.
+Deploying AxinsureOracle for Ethereum.
+Deploying AxinsureOracle for Polygon.
+Deployed AxinsureOracle for Moonbeam at 0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d.
+Deploying AxinsureCore for Moonbeam.
+Deployed AxinsureOracle for Ethereum at 0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d.
+Deploying AxinsureCore for Ethereum.
+Deployed AxinsureOracle for Avalanche at 0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d.
+Deploying AxinsureCore for Avalanche.
+Deployed AxinsureOracle for Fantom at 0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d.
+Deploying AxinsureCore for Fantom.
+Deployed AxinsureOracle for Polygon at 0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d.
+Deploying AxinsureCore for Polygon.
+Deployed AxinsureCore for Moonbeam at 0x8c3e6b6f9EEF4865D4e94A5F9bCDd0fe3B91bC2D.
+Deploying AxinsureCollector for Moonbeam.
+Deployed AxinsureCore for Avalanche at 0x55f805764FecC590b9c4D9b4D46363485a4E1C49.
+Deploying AxinsureCollector for Avalanche.
+Deployed AxinsureCore for Ethereum at 0x8c3e6b6f9EEF4865D4e94A5F9bCDd0fe3B91bC2D.
+Deploying AxinsureCollector for Ethereum.
+Deployed AxinsureCore for Polygon at 0x55f805764FecC590b9c4D9b4D46363485a4E1C49.
+Deploying AxinsureCollector for Polygon.
+Deployed AxinsureCore for Fantom at 0xDEAB381F29bFa484C40e8502AB29D3262aEF3b35.
+Deploying AxinsureCollector for Fantom.
+Deployed AxinsureCollector for Moonbeam at 0xf54b8de26C30d1aAE88D30D5e555473fF209dc24.
+Creating insurance policy for Moonbeam.
+Deployed AxinsureCollector for Avalanche at 0xbd71a972C389b1ab4915122aFD1Da8D657Cc357d.
+Creating insurance policy for Avalanche.
+Deployed AxinsureCollector for Polygon at 0xbd71a972C389b1ab4915122aFD1Da8D657Cc357d.
+Creating insurance policy for Polygon.
+Deployed AxinsureCollector for Ethereum at 0xf54b8de26C30d1aAE88D30D5e555473fF209dc24.
+Creating insurance policy for Ethereum.
+Deployed AxinsureCollector for Fantom at 0xD773F429D5b74bB23499a9C48FFa8fafeEFDf0Ed.
+Creating insurance policy for Fantom.
