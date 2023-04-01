@@ -18,28 +18,71 @@ struct InsurancePolicy{
 contract AxinsureCollector {
     address public paymentToken; // Token which premiums are collected and distributed in
     address public axinsureCoreDstAddress; // Destination Address of the core contract
+    string public axinsureCoreDstAddressString;
     string public axinsureCoreDstChain; // Destination chain of the core contract
     address public axelarGatewayAddress; // Axelar Gateway Address on the current chain
     
-    constructor() {}
-
-    function collectPremiums(uint256 policyNumber) public {
-        InsurancePolicy memory insurancePolicy = InsurancePolicies[policyNumber];
-
-        // Transfer the amount of payment token from the sender to this contract. Ensure user has approved the contract.
-        IERC20(paymentToken).transferFrom(msg.sender, address(this), amount);
-
-        // Transfer the amount of payment token from this contract to the destination chain using Axelar GMP
-        IAxelarGateway axelarGateway = IAxelarGateway(axelarGatewayAddress);
-        axelarGateway.callContractWithToken(axinsureCoreDstChain, axinsureCoreDstAddress, abi.encodeWithSignature("collectPremiums(uint256)", amount), paymentToken, amount);
-
+    constructor(address _axinsureCoreDstAddress, string memory _axinsureCoreDstChain, address _axelarGatewayAddress, address _paymentToken) {
+        axinsureCoreDstAddress = _axinsureCoreDstAddress;
+        axinsureCoreDstAddressString = AddressString.addressToString(_axinsureCoreDstAddress);
+        axinsureCoreDstChain = _axinsureCoreDstChain;
+        axelarGatewayAddress = _axelarGatewayAddress;
+        paymentToken = _paymentToken;
     }
+    
+
+
+    // // Allows the insurer to collect premiums accumulated on the chain of the insurance policy
+    // function collectPremiums(uint256 policyNumber) public {
+    //     InsurancePolicy memory insurancePolicy = InsurancePolicies[policyNumber];
+
+    //     // Transfer the amount of payment token from the sender to this contract. Ensure user has approved the contract.
+    //     IERC20(paymentToken).transferFrom(msg.sender, address(this), amount);
+
+    //     // Transfer the amount of payment token from this contract to the destination chain using Axelar GMP
+    //     IAxelarGateway axelarGateway = IAxelarGateway(axelarGatewayAddress);
+    //     axelarGateway.callContractWithToken(axinsureCoreDstChain, axinsureCoreDstAddress, abi.encodeWithSignature("collectPremiums(uint256)", amount), paymentToken, amount);
+
+    // }
 
     // Create a function to receive payouts in payment token
-    function collectPayouts(uint256 amount) public {
+    function collectPayoutsOnDstChain(uint256 amount) public {
         // Use Axelar GMP to interact with axinsure core contract on the destination chain and call the payout function
+
+        // Calls checkOracleAndPayout function on the destination chain
+        IAxelarGateway axelarGateway = IAxelarGateway(axelarGatewayAddress);
+        axelarGateway.callContract(axinsureCoreDstChain, axinsureCoreDstAddressString, abi.encodeWithSignature("checkOracleAndPayout(uint256)", amount));
+
+        // TODO: Add in a check to ensure that the payout was successful
+    }
+
+    /// Allows the user to purchase a policy on the host chain
+    function addPolicyUserOnDstChain(uint256 policyNumber, string memory userChain, address userAddress) public {
+        // Use Axelar GMP to interact with axinsure core contract on the destination chain and call the addPolicy function
+
+        // Calls addPolicyUser function on the destination chain
+        IAxelarGateway axelarGateway = IAxelarGateway(axelarGatewayAddress);
+        axelarGateway.callContract(axinsureCoreDstChain, axinsureCoreDstAddressString, abi.encodeWithSignature("addPolicyUser(uint256,string,address)", policyNumber, userChain, userAddress));
+        
+        // TODO: Add in a check to ensure that the policy was successfully added
         
     }
 
+    /// Utility function to convert address to string
+    function addressToString(address _addr) public pure returns (string memory) {
+        bytes32 value = bytes32(uint256(_addr));
+        bytes memory alphabet = "0123456789abcdef";
+
+        bytes memory str = new bytes(42);
+        str[0] = '0';
+        str[1] = 'x';
+        for (uint256 i = 0; i < 20; i++) {
+            str[2+i*2] = alphabet[uint8(value[i + 12] >> 4)];
+            str[3+i*2] = alphabet[uint8(value[i + 12] & 0x0f)];
+        }
+        return string(str);
+    }
 
 }
+
+

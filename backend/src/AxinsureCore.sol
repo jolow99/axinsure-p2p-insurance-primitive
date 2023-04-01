@@ -99,7 +99,7 @@ contract AxinsureCore is Ownable{
 
     /// Add a collector contract address for a chain.
     /// Can only be called by the owner of the contract.
-    function addCollector(string memory chain, address collectorAddress) public onlyOwner{
+    function addCollector(string calldata chain, address collectorAddress) public onlyOwner{
         axInsureCollectors[chain] = collectorAddress;
     }
 }
