@@ -6,16 +6,30 @@
   "author": "thirdweb <eng@thirdweb.com>",
   "license": "MIT",
   "dependencies": {
+    "@axelar-network/axelar-cgp-solidity": "^4.5.0",
+    "@axelar-network/axelar-gmp-sdk-solidity": "^3.2.0",
+    "@axelar-network/axelar-local-dev": "^1.4.2",
+    "@axelar-network/axelarjs-sdk": "^0.12.5-alph.3",
     "@thirdweb-dev/contracts": "^3",
     "chai": "^4.3.7"
   },
   "scripts": {
     "build": "npx thirdweb@latest detect",
     "deploy": "npx thirdweb@latest deploy",
-    "release": "npx thirdweb@latest release"
+    "release": "npx thirdweb@latest release",
+    "start": "node scripts/runStart",
+    "deploy-hardhat": "node scripts/runDeploy",
+    "execute": "node scripts/runExecute",
+    "setup": "node scripts/runSetupEnv",
+    "check-balance": "node scripts/runCheckBalance",
+    "build-hardhat": "rm -rf artifacts && npx hardhat clean && npx hardhat compile"
   },
   "devDependencies": {
     "@nomicfoundation/hardhat-foundry": "^1.0.0",
-    "hardhat": "^2.13.0"
+    "hardhat": "^2.13.0",
+    "solhint": "^3.3.7",
+    "solidity-coverage": "^0.7.21",
+    "prettier": "^2.6.2",
+    "prettier-plugin-solidity": "^1.0.0-beta.19"
   }
 }
