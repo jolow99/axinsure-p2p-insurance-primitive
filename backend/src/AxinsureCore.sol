@@ -30,8 +30,8 @@ struct UserDetails{
 
 contract AxinsureCore is Ownable, AxelarExecutable {
     /// Token which premiums are collected and distributed in
-    address public paymentToken; 
-
+    string public paymentToken; 
+    address public paymentTokenAddress;
 
     /// Array of all policies
     InsurancePolicy[] public InsurancePolicies;
@@ -47,25 +47,34 @@ contract AxinsureCore is Ownable, AxelarExecutable {
 
 
 
-    constructor(address _paymentToken, address _axelarGatewayAddress, address _gasReceiver) AxelarExecutable(_axelarGatewayAddress) {
+    constructor(string memory _paymentToken, address _axelarGatewayAddress, address _gasReceiver) AxelarExecutable(_axelarGatewayAddress) {
         paymentToken = _paymentToken;
+        paymentTokenAddress = gateway.tokenAddresses(_paymentToken);
+
         gasService = IAxelarGasService(_gasReceiver);
     }
 
     event newPolicyAdded(uint256 indexed policyNumber, address indexed insurerAddress, address oracleAddress, uint256 fundingAmount, uint256 payoutAmount, uint256 premiumsCost);
     event newUserAdded(uint256 indexed policyNumber, string indexed userChain, address userAddress);
 
+    // Getter function for paymentToken
+    function getPaymentToken() public view returns (string memory) {
+        return paymentToken;
+    }
+
     /// Creates a new InsurancePolicy
     function createInsurancePolicy(address oracleAddress, uint256 fundingAmount, uint256 payoutAmount, uint256 premiumsCost) public {
         require(fundingAmount >= premiumsCost, "Funding amount is insufficient to cover premiums");
 
         // Insurer transfers fund to the insurance policy contract
-        IERC20Metadata(paymentToken).transferFrom(msg.sender, address(this), fundingAmount);
+        IERC20Metadata(paymentTokenAddress).transferFrom(msg.sender, address(this), fundingAmount);
+
         uint256 policyNumber = InsurancePolicies.length + 1;
 
         // Create a new InsurancePolicy struct and add it to the InsurancePolicies array
         InsurancePolicy memory insurancePolicy = InsurancePolicy(msg.sender, oracleAddress, fundingAmount, payoutAmount, premiumsCost, policyNumber, 0, true);
         InsurancePolicies.push(insurancePolicy);
+        
         emit newPolicyAdded(policyNumber, msg.sender, oracleAddress, fundingAmount, payoutAmount, premiumsCost);
     }
 
@@ -99,19 +108,19 @@ contract AxinsureCore is Ownable, AxelarExecutable {
             for (uint256 i = 0; i < numOfPolicyUsers; i++) {
                 // Send payout to each user in the policy
                 UserDetails memory userDetails = policyUsers[policyNumber][i];
-                gateway.sendToken(userDetails.userChain, AddressToString.toString(userDetails.userAddress), IERC20Metadata(paymentToken).symbol(), insurancePolicy.payoutAmount);
+                gateway.sendToken(userDetails.userChain, AddressToString.toString(userDetails.userAddress), IERC20Metadata(paymentTokenAddress).symbol(), insurancePolicy.payoutAmount);
             }
             // Send remaining funds to the insurer
             uint256 remainingFunds = insurancePolicy.fundingAmount - numOfPolicyUsers * insurancePolicy.payoutAmount;
 
             // TODO: Placeholder
-            gateway.sendToken("axelar", AddressToString.toString(insurancePolicy.insurerAddress), IERC20Metadata(paymentToken).symbol(), remainingFunds);
+            gateway.sendToken("axelar", AddressToString.toString(insurancePolicy.insurerAddress), IERC20Metadata(paymentTokenAddress).symbol(), remainingFunds);
 
             // Set policy to inactive
             insurancePolicy.isPolicyActive = false;
         } else if (oracleResult[0] && !oracleResult[1]) {
             // Send remaining funds to the insurer
-            gateway.sendToken("axelar", AddressToString.toString(insurancePolicy.insurerAddress), IERC20Metadata(paymentToken).symbol(), insurancePolicy.fundingAmount);
+            gateway.sendToken("axelar", AddressToString.toString(insurancePolicy.insurerAddress), IERC20Metadata(paymentTokenAddress).symbol(), insurancePolicy.fundingAmount);
 
             // Set policy to inactive
             insurancePolicy.isPolicyActive = false;

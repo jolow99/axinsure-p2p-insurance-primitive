@@ -35,3 +35,9 @@ If not specify, this will print balances of the wallet for testnet.
 Running the local chains
 `npm run start`
 Leave this node running on a separate terminal before deploying and testing the dApps.
+
+3. Start the local chains
+
+```bash
+npm run start
+```
