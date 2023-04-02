@@ -45,6 +45,14 @@ There are 3 main contracts:
 2. `AxinsureCore`: This contract is responsible for creating insurance policies, and for querying the oracle to issue payouts. It is deployed on our host chain, Polygon.
 3. `AxinsureCollector`: This contract is responsible for collecting funds from users and disbursing funds to the winners. It can be deployed on any chain.
 
+Overall, the system works as follows:
+
+- Insurers can create insurance policies on the `AxinsureCore` contract, which will be stored on the host chain. Insurers can create policies for any chain, and can specify the payout amount and payout conditions.
+- Users can buy insurance policies on the `AxinsureCore` contract, which will be stored on the host chain. Users can buy policies from chain, and can specify the amount of funds they want to contribute.
+- When the payout conditions are met, the `AxinsureCore` contract will query the `AxinsureOracle` contract to get the weather data. If the payout conditions are met, the `AxinsureCore` contract will call the `AxinsureCollector` contract on the host chain to disburse funds to the winners. The disbursement will be done using cross-chain messaging, which will allow the `AxinsureCollector` contract to disburse funds to the winners on the chain where the policy was created.
+
+In summary, the system uses cross-chain messaging to create a decentralized and transparent insurance system that is accessible to anyone and users can easily have payouts without having to worry about bridging assets or the underlying chain.
+
 # Experiences with Axelar
 
 1. Axelar was easy to integrate into the solidity code. A lot of abstraction has evidently been done to reduce the number of lines of code that has to be used.
