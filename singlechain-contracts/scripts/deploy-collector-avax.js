@@ -31,7 +31,7 @@ async function main() {
 
   const axinsureCollector = await AxinsureCollector.deploy(
     axinsureCoreAddress,
-    "Avalanche",
+    "Polygon",
     axelarGatewayAddress,
     paymentToken,
     gasReceiverAddress
