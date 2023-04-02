@@ -20,12 +20,26 @@
     "rpc": "http://localhost:8500/0",
     "tokenName": "DEV",
     "tokenSymbol": "DEV",
+    "usdc": {
+      "abi": [
+        "error InvalidAccount()",
+        "event Approval(address indexed owner, address indexed spender, uint256 value)",
+        "event Transfer(address indexed from, address indexed to, uint256 value)",
+        "function allowance(address owner, address spender) view returns (uint256)",
+        "function approve(address spender, uint256 amount) returns (bool)",
+        "function balanceOf(address account) view returns (uint256)",
+        "function totalSupply() view returns (uint256)",
+        "function transfer(address recipient, uint256 amount) returns (bool)",
+        "function transferFrom(address sender, address recipient, uint256 amount) returns (bool)"
+      ],
+      "address": "0x5d8C7D94B16a1Ba4865acC6bc039e2877925dC4F"
+    },
     "oracleContract": {
       "abi": [
         "constructor()",
         "function checkOracle() pure returns (bool[2])"
       ],
-      "address": "0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d"
+      "address": "0x44D242cA70b95f22887770bC42D5e69b4fF570EB"
     },
     "coreContract": {
       "abi": [
@@ -54,7 +68,7 @@
         "function renounceOwnership()",
         "function transferOwnership(address newOwner)"
       ],
-      "address": "0xc20AB0E840B400B34e0Bd8C00E2898c73047c085"
+      "address": "0xb7B158620B269f45CA1098B11F4f8373DFCf2B0C"
     },
     "collectorContract": {
       "abi": [
@@ -71,7 +85,7 @@
         "function gateway() view returns (address)",
         "function paymentToken() view returns (string)"
       ],
-      "address": "0x9B2DE210Cf202C6F292E599054F9Bf911CE638A8"
+      "address": "0xAf9e13f53CcFE7991a1396B0DE55a8b3e37806C8"
     }
   },
   {
@@ -95,12 +109,26 @@
     "rpc": "http://localhost:8500/1",
     "tokenName": "Avax",
     "tokenSymbol": "AVAX",
+    "usdc": {
+      "abi": [
+        "error InvalidAccount()",
+        "event Approval(address indexed owner, address indexed spender, uint256 value)",
+        "event Transfer(address indexed from, address indexed to, uint256 value)",
+        "function allowance(address owner, address spender) view returns (uint256)",
+        "function approve(address spender, uint256 amount) returns (bool)",
+        "function balanceOf(address account) view returns (uint256)",
+        "function totalSupply() view returns (uint256)",
+        "function transfer(address recipient, uint256 amount) returns (bool)",
+        "function transferFrom(address sender, address recipient, uint256 amount) returns (bool)"
+      ],
+      "address": "0x19a13F9C3820B148e68E5aEb67cD1BE20c085CD0"
+    },
     "oracleContract": {
       "abi": [
         "constructor()",
         "function checkOracle() pure returns (bool[2])"
       ],
-      "address": "0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d"
+      "address": "0x6815aAd26067d1bB31782b25b27Db54E9c4d320B"
     },
     "coreContract": {
       "abi": [
@@ -129,7 +157,7 @@
         "function renounceOwnership()",
         "function transferOwnership(address newOwner)"
       ],
-      "address": "0xc20AB0E840B400B34e0Bd8C00E2898c73047c085"
+      "address": "0x8453F02db0879cc5A9C19ede975f4286ABFC35d9"
     },
     "collectorContract": {
       "abi": [
@@ -146,7 +174,7 @@
         "function gateway() view returns (address)",
         "function paymentToken() view returns (string)"
       ],
-      "address": "0x9B2DE210Cf202C6F292E599054F9Bf911CE638A8"
+      "address": "0x2C1B68efbb0629e0288569907CcFE882080606df"
     }
   },
   {
@@ -170,12 +198,26 @@
     "rpc": "http://localhost:8500/2",
     "tokenName": "Fantom",
     "tokenSymbol": "FTM",
+    "usdc": {
+      "abi": [
+        "error InvalidAccount()",
+        "event Approval(address indexed owner, address indexed spender, uint256 value)",
+        "event Transfer(address indexed from, address indexed to, uint256 value)",
+        "function allowance(address owner, address spender) view returns (uint256)",
+        "function approve(address spender, uint256 amount) returns (bool)",
+        "function balanceOf(address account) view returns (uint256)",
+        "function totalSupply() view returns (uint256)",
+        "function transfer(address recipient, uint256 amount) returns (bool)",
+        "function transferFrom(address sender, address recipient, uint256 amount) returns (bool)"
+      ],
+      "address": "0x33251f191aa60F7AA30A5323Eb301557c95f1867"
+    },
     "oracleContract": {
       "abi": [
         "constructor()",
         "function checkOracle() pure returns (bool[2])"
       ],
-      "address": "0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d"
+      "address": "0x44D242cA70b95f22887770bC42D5e69b4fF570EB"
     },
     "coreContract": {
       "abi": [
@@ -204,7 +246,7 @@
         "function renounceOwnership()",
         "function transferOwnership(address newOwner)"
       ],
-      "address": "0xc20AB0E840B400B34e0Bd8C00E2898c73047c085"
+      "address": "0xb7B158620B269f45CA1098B11F4f8373DFCf2B0C"
     },
     "collectorContract": {
       "abi": [
@@ -221,7 +263,7 @@
         "function gateway() view returns (address)",
         "function paymentToken() view returns (string)"
       ],
-      "address": "0x9B2DE210Cf202C6F292E599054F9Bf911CE638A8"
+      "address": "0xAf9e13f53CcFE7991a1396B0DE55a8b3e37806C8"
     }
   },
   {
@@ -245,12 +287,26 @@
     "rpc": "http://localhost:8500/3",
     "tokenName": "Ether",
     "tokenSymbol": "ETH",
+    "usdc": {
+      "abi": [
+        "error InvalidAccount()",
+        "event Approval(address indexed owner, address indexed spender, uint256 value)",
+        "event Transfer(address indexed from, address indexed to, uint256 value)",
+        "function allowance(address owner, address spender) view returns (uint256)",
+        "function approve(address spender, uint256 amount) returns (bool)",
+        "function balanceOf(address account) view returns (uint256)",
+        "function totalSupply() view returns (uint256)",
+        "function transfer(address recipient, uint256 amount) returns (bool)",
+        "function transferFrom(address sender, address recipient, uint256 amount) returns (bool)"
+      ],
+      "address": "0x38Aa1Cb12E5263eC0c6e9febC25B01116D346CD4"
+    },
     "oracleContract": {
       "abi": [
         "constructor()",
         "function checkOracle() pure returns (bool[2])"
       ],
-      "address": "0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d"
+      "address": "0x44D242cA70b95f22887770bC42D5e69b4fF570EB"
     },
     "coreContract": {
       "abi": [
@@ -279,7 +335,7 @@
         "function renounceOwnership()",
         "function transferOwnership(address newOwner)"
       ],
-      "address": "0xc20AB0E840B400B34e0Bd8C00E2898c73047c085"
+      "address": "0xb7B158620B269f45CA1098B11F4f8373DFCf2B0C"
     },
     "collectorContract": {
       "abi": [
@@ -296,7 +352,7 @@
         "function gateway() view returns (address)",
         "function paymentToken() view returns (string)"
       ],
-      "address": "0x9B2DE210Cf202C6F292E599054F9Bf911CE638A8"
+      "address": "0xAf9e13f53CcFE7991a1396B0DE55a8b3e37806C8"
     }
   },
   {
@@ -320,12 +376,26 @@
     "rpc": "http://localhost:8500/4",
     "tokenName": "Matic",
     "tokenSymbol": "MATIC",
+    "usdc": {
+      "abi": [
+        "error InvalidAccount()",
+        "event Approval(address indexed owner, address indexed spender, uint256 value)",
+        "event Transfer(address indexed from, address indexed to, uint256 value)",
+        "function allowance(address owner, address spender) view returns (uint256)",
+        "function approve(address spender, uint256 amount) returns (bool)",
+        "function balanceOf(address account) view returns (uint256)",
+        "function totalSupply() view returns (uint256)",
+        "function transfer(address recipient, uint256 amount) returns (bool)",
+        "function transferFrom(address sender, address recipient, uint256 amount) returns (bool)"
+      ],
+      "address": "0xC1a50e3611C2c500562803945C0a746c9cFb1939"
+    },
     "oracleContract": {
       "abi": [
         "constructor()",
         "function checkOracle() pure returns (bool[2])"
       ],
-      "address": "0x29dcFe9cEC4cd7d710A3EdB098716d63922c736d"
+      "address": "0x44D242cA70b95f22887770bC42D5e69b4fF570EB"
     },
     "coreContract": {
       "abi": [
@@ -354,7 +424,7 @@
         "function renounceOwnership()",
         "function transferOwnership(address newOwner)"
       ],
-      "address": "0xc20AB0E840B400B34e0Bd8C00E2898c73047c085"
+      "address": "0xb7B158620B269f45CA1098B11F4f8373DFCf2B0C"
     },
     "collectorContract": {
       "abi": [
@@ -371,7 +441,7 @@
         "function gateway() view returns (address)",
         "function paymentToken() view returns (string)"
       ],
-      "address": "0x9B2DE210Cf202C6F292E599054F9Bf911CE638A8"
+      "address": "0xAf9e13f53CcFE7991a1396B0DE55a8b3e37806C8"
     }
   }
 ]

@@ -3,7 +3,7 @@
 const {
   utils: { deployContract },
 } = require("@axelar-network/axelar-local-dev");
-const { getDefaultProvider, Contract } = require("ethers");
+const { getDefaultProvider, Contract, ethers } = require("ethers");
 
 const AxinsureCollector = rootRequire(
   "artifacts/src/AxinsureCollector.sol/AxinsureCollector.json"
@@ -17,13 +17,34 @@ const AxinsureOracle = rootRequire(
   "artifacts/src/AxinsureOracle.sol/AxinsureOracle.json"
 );
 
+const Gateway = rootRequire(
+  "artifacts/@axelar-network/axelar-gmp-sdk-solidity/contracts/interfaces/IAxelarGateway.sol/IAxelarGateway.json"
+);
+
+const IERC20 = rootRequire(
+  "artifacts/@axelar-network/axelar-gmp-sdk-solidity/contracts/interfaces/IERC20.sol/IERC20.json"
+);
+
 const { defaultAbiCoder } = require("ethers/lib/utils");
 
 async function deploy(chain, wallet) {
+  console.log(`Deploying contracts for ${chain.name}.`);
+
   // Variables for deployment
   const paymentToken = "aUSDC";
   const gatewayAddress = chain.gateway;
   const gasServiceAddress = chain.gasService;
+
+  // Setup
+  const provider = getDefaultProvider(chain.rpc);
+  chain.wallet = wallet.connect(provider);
+  const gateway = new Contract(chain.gateway, Gateway.abi, chain.wallet);
+  
+  // USDC contract
+  const usdcAddress = await gateway.tokenAddresses("aUSDC");
+  chain.usdc = new Contract(usdcAddress, IERC20.abi, chain.wallet);
+
+  // TODO: In the real version, Core and Oracle contract will be deployed on a main host chain. i.e Polygon
 
   // Deploy AxinsureOracle contract
   console.log(`Deploying AxinsureOracle for ${chain.name}.`);
@@ -55,73 +76,59 @@ async function deploy(chain, wallet) {
   console.log(
     `Deployed AxinsureCollector for ${chain.name} at ${collectorAddress}.`
   );
-
-  // Call createInsurancePolicy from the Core contract
-  console.log(`Creating insurance policy for ${chain.name}.`);
-
-  // const addPolicyTx = await chain.coreContract.createInsurancePolicy(
-  //   chain.oracleContract.address,
-  //   1000,
-  //   100,
-  //   10
-  // );
-  // await addPolicyTx.wait();
 }
 
-async function execute(evmChain, wallet, options) {
-  // const args = options.args || [];
-
+async function execute(chain, wallet, options) {
+  const args = options.args || [];
   const { source, destination, oracleContract } = options;
+  const amount = Math.floor(parseFloat(args[2])) * 1e6 || 10e6;
+  const accounts = args.slice(3);
+  if (accounts.length === 0) accounts.push(wallet.address);
 
-  async function logValue() {
-    console.log(
-      `value at ${evmChain.name} is "${await evmChain.contract.value()}"`
-    );
-    // const resources = await client.getAccountResources(client.owner.address());
-    // const resource = resources.find(
-    //   (r) => r.type === `${client.owner.address()}::hello_world::MessageHolder`
-    // );
-    // const msg = resource.data.message;
-    // console.log(`value at Aptos is "${msg}"`);
+  async function logAccountBalances() {
+    for (const account of accounts) {
+      console.log(
+        `${account} has ${
+          (await destination.usdc.balanceOf(account)) / 1e6
+        } aUSDC`
+      );
+    }
   }
-
-  console.log("--- Initially ---");
-  await logValue();
-
-  // Currently, our SDK can't calculate bridge fee for Aptos, so we just use a fixed value.
-  const gasLimit = 3e5;
-  const gasPrice = 1;
-
-  // const tx = await evmChain.contract.setRemoteValue(
-  //   "aptos",
-  //   `${client.owner.address()}::hello_world`,
-  //   messageEvmToAptos,
-  //   {
-  //     value: BigInt(Math.floor(gasLimit * gasPrice)),
-  //   }
-  // );
-  // await tx.wait();
-
-  const payload = new HexString(
-    defaultAbiCoder.encode(["string"], [messageAptosToEvm])
-  ).toUint8Array();
-  await client.submitTransactionAndWait(client.owner.address(), {
-    function: `${client.owner.address()}::hello_world::call`,
-    type_arguments: [],
-    arguments: [
-      evmChain.name,
-      evmChain.contract.address,
-      payload,
-      gasLimit * gasPrice,
-    ],
-  });
 
   const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-  await sleep(3000);
+  console.log("--- Initially ---");
+  await logAccountBalances();
+  const fee = await calculateBridgeFee(source, destination);
+  const balance = await destination.usdc.balanceOf(accounts[0]);
+
+  const approveTx = await source.usdc.approve(source.contract.address, amount);
+  await approveTx.wait();
+
+  const sendTx = await source.contract.sendToMany(
+    destination.name,
+    destination.contract.address,
+    accounts,
+    "aUSDC",
+    amount,
+    {
+      value: fee,
+    }
+  );
+  await sendTx.wait();
+
+  while (true) {
+    const updatedBalance = await destination.usdc.balanceOf(accounts[0]);
+
+    if (updatedBalance.gt(balance)) {
+      break;
+    }
+
+    await sleep(1000);
+  }
 
   console.log("--- After ---");
-  await logValue();
+  await logAccountBalances();
 }
 
 module.exports = {
