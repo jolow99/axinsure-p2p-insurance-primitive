@@ -59,7 +59,7 @@ In summary, the system uses cross-chain messaging to create a decentralized and 
 2. While the Axelar example code was very helpful, it was difficult to adapt it to use within our project as there was no clean template which we could easily integrate from. Instead, our team had to cherry pick different aspects of the code that were relevant to our use case.
 3. The aUSDC faucet on Discord was difficult to use as it was rate limited to every 12 hours, and only issued tokens on one chain. Additionally, aUSDC on the different chains were not verified, meaning that we were required to manually craft transactions to call approvals on the aUSDC contract.
 
-**Axelar Transaction** : https://testnet.axelarscan.io/gmp/0xd6f4be3674975626415f2a8fb66fd3231c745ab36dd3679237106512840418bb
+**Axelar Transaction** : <https://testnet.axelarscan.io/gmp/0xd6f4be3674975626415f2a8fb66fd3231c745ab36dd3679237106512840418bb>
 
 ## Contracts and Deployment
 
@@ -68,18 +68,18 @@ The Contracts are deployed at
 **Mumbai**
 
 Oracle:
-https://mumbai.polygonscan.com/address/0xc20AB0E840B400B34e0Bd8C00E2898c73047c085#code
+<https://mumbai.polygonscan.com/address/0xc20AB0E840B400B34e0Bd8C00E2898c73047c085#code>
 
 Core:
-https://mumbai.polygonscan.com/address/0x9B2DE210Cf202C6F292E599054F9Bf911CE638A8#code
+<https://mumbai.polygonscan.com/address/0x9B2DE210Cf202C6F292E599054F9Bf911CE638A8#code>
 
 Collector:
-https://mumbai.polygonscan.com/address/0x9C7E8199271DBC8eb46A1d6CE782760A6aE08190#code
+<https://mumbai.polygonscan.com/address/0x9C7E8199271DBC8eb46A1d6CE782760A6aE08190#code>
 
 **AVAX Fuji**
 
 Collector:
-https://testnet.snowtrace.io/address/0x9B2DE210Cf202C6F292E599054F9Bf911CE638A8#code
+<https://testnet.snowtrace.io/address/0x9B2DE210Cf202C6F292E599054F9Bf911CE638A8#code>
 
 # How To Run Locally
 
@@ -117,13 +117,13 @@ Running the local chains
 `npm run start`
 Leave this node running on a separate terminal before deploying and testing the dApps.
 
-3. Start the local chains
+4. Start the local chains
 
 ```bash
 npm run start
 ```
 
-4. Deploy singular contract on Testnet
+5. Deploy singular contract on Testnet
 
 ```bash
 npx hardhat run scripts/deploy.js --network polygon_mumbai
@@ -136,7 +136,7 @@ Or using BuildBear
 npx hardhat run scripts/deploy.js --network buildbear
 ```
 
-5. Deploy AxinsureCollector contract on Multichain
+6. Deploy AxinsureCollector contract on Multichain
 
 ```bash
 npm run deploy-hardhat local
@@ -156,7 +156,7 @@ Verify the contract on Etherscan
 npx hardhat verify --network polygon_mumbai DEPLOYED_CONTRACT_ADDRESS
 ```
 
-6. Execute function in AxinsureCollector contract deployed across chains with Axelar
+7. Execute function in AxinsureCollector contract deployed across chains with Axelar
 
 ```bash
 npm run execute local "Avalanche" "Fantom" 100 0xBa86A5719722B02a5D5e388999C25f3333c7A9fb

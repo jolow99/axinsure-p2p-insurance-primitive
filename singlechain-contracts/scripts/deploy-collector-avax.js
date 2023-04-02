@@ -1,13 +1,11 @@
 // Deploy AxinsureCollector on AVAX
 const hre = require("hardhat");
 const erc20Abi = require("../abi/erc20.json");
+require('dotenv').config()
 
 async function main() {
   const provider = new ethers.providers.JsonRpcProvider();
-  const signer = new ethers.Wallet(
-    "0xe3abcb47c4176d2570f69502ae4e771ee828ab8624bbc7f6acd5946d42298402",
-    provider
-  );
+  const signer = new ethers.Wallet(process.env.privateKey, provider);
 
   // Deploy AxinsureCore
   const paymentToken = "aUSDC";

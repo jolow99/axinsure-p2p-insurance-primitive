@@ -8,29 +8,23 @@ module.exports = {
   networks: {
     avalanche_fuji: {
       url: "https://api.avax-test.network/ext/bc/C/rpc",
-      accounts: [
-        "0xe3abcb47c4176d2570f69502ae4e771ee828ab8624bbc7f6acd5946d42298402",
-      ],
+      accounts: [process.env.PRIVATE_KEY],
     },
     polygon_mumbai: {
       url: "https://rpc-mumbai.maticvigil.com",
-      accounts: [
-        "0xe3abcb47c4176d2570f69502ae4e771ee828ab8624bbc7f6acd5946d42298402",
-      ],
+      accounts: [process.env.PRIVATE_KEY],
     },
     buildbear: {
       url: "https://rpc.buildbear.io/Drunk_Rugor_Nass_8d3194db",
-      accounts: [
-        "0xe3abcb47c4176d2570f69502ae4e771ee828ab8624bbc7f6acd5946d42298402",
-      ],
+      accounts: [process.env.PRIVATE_KEY],
     },
   },
 
   etherscan: {
     apiKey: {
       buildbear: "verifyContracts",
-      polygonMumbai: "KYI4HC428Q54B4AWFSUMTYXJV5FAP46TYE",
-      avalancheFujiTestnet: "PNUQDN7DNKZ2DTMWQWWDXIZ2BHA5AEGXEZ",
+      polygonMumbai: process.env.POLYGON_MUMBAI_API_KEY,
+      avalancheFujiTestnet: process.env.AVALANCHE_FUJI_API_KEY,
     },
     customChains: [
       {

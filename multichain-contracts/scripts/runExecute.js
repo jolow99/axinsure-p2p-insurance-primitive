@@ -9,6 +9,7 @@ const {
   getEVMChains,
 } = require("./libs");
 
+console.log("Args are: ", process.argv);
 const env = process.argv[2];
 const args = process.argv.slice(3);
 
