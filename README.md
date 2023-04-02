@@ -4,17 +4,20 @@ Axinsure is a new DeFi primitive that enables the easy creation of peer-to-peer 
 
 With Axinsure, anybody can use insurance products from any chain, without having to worry about the underlying technology.
 
-Users can also become insurers, creating automatic, cross-chain disbursements based on changes that happened in the real world.  
+Users can also become insurers, creating automatic, cross-chain disbursements based on changes that happened in the real world.
 
-# Problem 
+# Problem
+
 Our proof-of-concept highlights a potential use case in agriculture to increase accessibility of weather insurance for farmers.
 
 # Potential Use Cases
+
 1. Weather Insurance: Farmers are able to buy insurance for their crops based on weather conditions.
 2. Peer-to-peer bets: Balaji 1million btc, or sports betting
 
 # How It Works
-The technology is built using Chainlink Functions and  Automations for off-chain monitoring of events, Axelar for cross-chain pooling of liquidity, and Thirdweb for deployment across multiple chains.
+
+The technology is built using Chainlink Functions and Automations for off-chain monitoring of events, Axelar for cross-chain pooling of liquidity, and Thirdweb for deployment across multiple chains.
 
 # How To Run Locally
 
@@ -62,6 +65,7 @@ npm run start
 
 ```bash
 npx hardhat run scripts/deploy.js --network polygon_mumbai
+npx hardhat run scripts/deploy-collector-avax.js --network avalanche_fuji
 ```
 
 Or using BuildBear
@@ -82,6 +86,12 @@ To deploy on testnet, run
 
 ```bash
 npm run deploy-hardhat testnet
+```
+
+Verify the contract on Etherscan
+
+```bash
+npx hardhat verify --network polygon_mumbai DEPLOYED_CONTRACT_ADDRESS
 ```
 
 6. Execute function in AxinsureCollector contract deployed across chains with Axelar

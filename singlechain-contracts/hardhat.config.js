@@ -6,6 +6,12 @@ require("dotenv").config();
 module.exports = {
   solidity: "0.8.18",
   networks: {
+    avalanche_fuji: {
+      url: "https://api.avax-test.network/ext/bc/C/rpc",
+      accounts: [
+        "0xe3abcb47c4176d2570f69502ae4e771ee828ab8624bbc7f6acd5946d42298402",
+      ],
+    },
     polygon_mumbai: {
       url: "https://rpc-mumbai.maticvigil.com",
       accounts: [
@@ -24,6 +30,7 @@ module.exports = {
     apiKey: {
       buildbear: "verifyContracts",
       polygonMumbai: "KYI4HC428Q54B4AWFSUMTYXJV5FAP46TYE",
+      avalancheFujiTestnet: "PNUQDN7DNKZ2DTMWQWWDXIZ2BHA5AEGXEZ",
     },
     customChains: [
       {
