@@ -9,49 +9,42 @@ async function main() {
     provider
   );
 
-  console.log("signer address:", signer.address);
-
-  // Deploy AxinsureCore
-  const paymentToken = "aUSDC";
-
-  // Polygon
-  const axelarGatewayAddress = "0xBF62ef1486468a6bd26Dd669C06db43dEd5B849B";
-  const gasReceiverAddress = "0xbE406F0189A0B4cf3A05C286473D23791Dd44Cc6";
-
-  const axinsureCoreAddress = "0x9B2DE210Cf202C6F292E599054F9Bf911CE638A8";
-
   //// Function Execution
 
   const aUSDCTokenAddress = ethers.utils.getAddress(
     "0x2c852e740B62308c46DD29B982FBb650D063Bd07"
   ); // Polygon mumbai
 
-  const aUSDCWithSigner = new ethers.Contract(
-    aUSDCTokenAddress,
-    erc20Abi,
-    signer
-  );
+  const abi = [
+    // Read-Only Functions
+    "function balanceOf(address owner) view returns (uint256)",
+    "function decimals() view returns (uint8)",
+    "function symbol() view returns (string)",
 
-  // const aUSDCWithSigner = await hre.ethers.getContractAt(
-  //   "aUSDC",
-  //   "0x2c852e740B62308c46DD29B982FBb650D063Bd07",
-  //   signer
-  // );
+    // Authenticated Functions
+    "function transfer(address to, uint amount) returns (bool)",
 
-  // get contract balance
-  const balance = await aUSDCWithSigner.name();
-  console.log("aUSDC balance:", balance);
+    // Events
+    "event Transfer(address indexed from, address indexed to, uint amount)",
+  ];
 
-  // // const aUSDCWithSigner = aUSDC.connect(signer);
+  const aUSDC = new ethers.Contract(aUSDCTokenAddress, abi, signer);
 
-  // // Approve AxinsureCore to spend aUSDC
-  // const approveTx = await aUSDCWithSigner.approve(
-  //   axinsureCoreAddress,
-  //   ethers.utils.parseUnits("10", 6)
-  // );
+  const aUSDCWithSigner = aUSDC.connect(signer);
 
-  // await approveTx.wait();
-  // console.log("aUSDC approved to AxinsureCore");
+  // Get balance of aUSDC
+  const balance = await aUSDCWithSigner.balanceOf(signer.address);
+
+  // // // const aUSDCWithSigner = aUSDC.connect(signer);
+
+  // // // Approve AxinsureCore to spend aUSDC
+  // // const approveTx = await aUSDCWithSigner.approve(
+  // //   axinsureCoreAddress,
+  // //   ethers.utils.parseUnits("10", 6)
+  // // );
+
+  // // await approveTx.wait();
+  // // console.log("aUSDC approved to AxinsureCore");
 }
 
 main().catch((error) => {
