@@ -64,19 +64,18 @@ contract AxinsureCore is Ownable, AxelarExecutable {
 
     /// Creates a new InsurancePolicy
     function createInsurancePolicy(address oracleAddress, uint256 fundingAmount, uint256 payoutAmount, uint256 premiumsCost) public {
-        // require(fundingAmount >= premiumsCost, "Funding amount is insufficient to cover premiums");
-        require(fundingAmount<10, "Funding amount is insufficient to cover premiums");
+        require(fundingAmount >= premiumsCost, "Funding amount is insufficient to cover premiums");
 
         // // Insurer transfers fund to the insurance policy contract
-        // IERC20Metadata(paymentTokenAddress).transferFrom(msg.sender, address(this), fundingAmount);
+        IERC20Metadata(paymentTokenAddress).transferFrom(msg.sender, address(this), fundingAmount);
 
-        // uint256 policyNumber = InsurancePolicies.length + 1;
+        uint256 policyNumber = InsurancePolicies.length + 1;
 
-        // // Create a new InsurancePolicy struct and add it to the InsurancePolicies array
-        // InsurancePolicy memory insurancePolicy = InsurancePolicy(msg.sender, oracleAddress, fundingAmount, payoutAmount, premiumsCost, policyNumber, 0, true);
-        // InsurancePolicies.push(insurancePolicy);
+        // Create a new InsurancePolicy struct and add it to the InsurancePolicies array
+        InsurancePolicy memory insurancePolicy = InsurancePolicy(msg.sender, oracleAddress, fundingAmount, payoutAmount, premiumsCost, policyNumber, 0, true);
+        InsurancePolicies.push(insurancePolicy);
         
-        // emit newPolicyAdded(policyNumber, msg.sender, oracleAddress, fundingAmount, payoutAmount, premiumsCost);
+        emit newPolicyAdded(policyNumber, msg.sender, oracleAddress, fundingAmount, payoutAmount, premiumsCost);
     }
 
     /// Adds user to a specifc InsurancePolicy 

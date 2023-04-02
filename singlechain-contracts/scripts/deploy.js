@@ -32,26 +32,41 @@ async function main() {
     "0x2c852e740B62308c46DD29B982FBb650D063Bd07"
   ); // Polygon mumbai
 
-  const aUSDC = new ethers.Contract(aUSDCTokenAddress, erc20Abi, provider);
-  const aUSDCWithSigner = aUSDC.connect(signer);
+  // const aUSDC = new ethers.Contract(aUSDCTokenAddress, erc20Abi, provider);
+  // const aUSDCWithSigner = aUSDC.connect(signer);
 
-  // Approve AxinsureCore to spend aUSDC
-  const approveTx = await aUSDCWithSigner.approve(
+  // // Approve AxinsureCore to spend aUSDC
+  // const approveTx = await aUSDCWithSigner.approve(
+  //   axinsureCore.address,
+  //   ethers.utils.parseUnits("100000", 6)
+  // );
+
+  // await approveTx.wait();
+
+  // Deploy AxinsureCollector on Polygon
+  const AxinsureCollector = await hre.ethers.getContractFactory(
+    "AxinsureCollector"
+  );
+
+  const axinsureCollector = await AxinsureCollector.deploy(
     axinsureCore.address,
-    ethers.utils.parseUnits("100000", 6)
+    "Polygon",
+    axelarGatewayAddress,
+    paymentToken,
+    gasReceiverAddress
   );
+  await axinsureCollector.deployed();
+  console.log("AxinsureCollector deployed to:", axinsureCollector.address);
 
-  await approveTx.wait();
-
-  // Call createInsurancePolicy on AxinsureCore
-  const createInsurancePolicyTx = await axinsureCore.createInsurancePolicy(
-    axinsureOracle.address,
-    100,
-    10,
-    1
-  );
-  await createInsurancePolicyTx.wait();
-  console.log("createInsurancePolicyTx:", createInsurancePolicyTx.hash);
+  // // Call createInsurancePolicy on AxinsureCore
+  // const createInsurancePolicyTx = await axinsureCore.createInsurancePolicy(
+  //   axinsureOracle.address,
+  //   100,
+  //   10,
+  //   1
+  // );
+  // await createInsurancePolicyTx.wait();
+  // console.log("createInsurancePolicyTx:", createInsurancePolicyTx.hash);
 }
 
 main().catch((error) => {
