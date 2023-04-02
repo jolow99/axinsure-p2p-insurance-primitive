@@ -19,6 +19,26 @@ Our proof-of-concept highlights a potential use case in agriculture to increase 
 
 The technology is built using Chainlink Functions and Automations for off-chain monitoring of events, Axelar for cross-chain pooling of liquidity, and Thirdweb for deployment across multiple chains.
 
+## Contracts and Deployment
+
+The Contracts are deployed at
+
+**Mumbai**
+
+Oracle:
+https://mumbai.polygonscan.com/address/0xc20AB0E840B400B34e0Bd8C00E2898c73047c085#code
+
+Core:
+https://mumbai.polygonscan.com/address/0x9B2DE210Cf202C6F292E599054F9Bf911CE638A8#code
+
+Collector:
+https://mumbai.polygonscan.com/address/0x9C7E8199271DBC8eb46A1d6CE782760A6aE08190#code
+
+**AVAX Fuji**
+
+Collector:
+https://testnet.snowtrace.io/address/0x9B2DE210Cf202C6F292E599054F9Bf911CE638A8#code
+
 # How To Run Locally
 
 1. Git clone
