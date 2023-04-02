@@ -88,7 +88,7 @@ contract AxinsureCore is Ownable, AxelarExecutable {
         require(insurancePolicy.premiumsCost + insurancePolicy.premiumsTotal < insurancePolicy.fundingAmount, "Insufficient funding to insure additional users");
 
         UserDetails memory userDetails = UserDetails(userChain, userAddress);
-        policyUsers[policyNumber].push(userDetails);
+    policyUsers[policyNumber].push(userDetails);
         insurancePolicy.premiumsTotal += insurancePolicy.premiumsCost;
         emit newUserAdded(policyNumber, userChain, userAddress);
     }

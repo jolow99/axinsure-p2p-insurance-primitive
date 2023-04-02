@@ -187,7 +187,7 @@ function getDefaultChains(env) {
     return ["Avalanche", "Fantom", "Moonbeam", "Polygon", "Ethereum"];
   }
 
-  return ["Avalanche", "Fantom", "Polygon"];
+  return ["Avalanche", "Polygon"];
 }
 
 /**
@@ -196,14 +196,9 @@ function getDefaultChains(env) {
  * @returns {string} - The path to the example.
  */
 function getExamplePath() {
-  const destDir = path.resolve(
-    __dirname,
-    "..",
-    `src/deploy.js`
-  );
+  const destDir = path.resolve(__dirname, "..", `src/deploy.js`);
   return path.relative(__dirname, destDir);
 }
-
 
 /**
  * Sanitize the event arguments.
