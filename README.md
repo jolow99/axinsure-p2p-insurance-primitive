@@ -4,20 +4,33 @@ Axinsure is a new DeFi primitive that enables the easy creation of peer-to-peer 
 
 With Axinsure, anybody can use insurance products from any chain, without having to worry about the underlying technology.
 
-Users can also become insurers, creating automatic, cross-chain disbursements based on changes that happened in the real world.
+Users can also become insurers, creating automatic, cross-chain disbursements based on changes that happened in the real world.  
 
-# Problem
-
+# Problem 
 Our proof-of-concept highlights a potential use case in agriculture to increase accessibility of weather insurance for farmers.
 
 # Potential Use Cases
-
 1. Weather Insurance: Farmers are able to buy insurance for their crops based on weather conditions.
-2. Peer-to-peer bets: Balaji 1million btc, or sports betting
+2. Peer-to-peer bets: Users can bet on the outcome of an event, and the winner is automatically paid out. e.g. Balaji BTC to 1 million bet.
 
 # How It Works
+The frontend is built using Thirdweb and React. 
 
-The technology is built using Chainlink Functions and Automations for off-chain monitoring of events, Axelar for cross-chain pooling of liquidity, and Thirdweb for deployment across multiple chains.
+The smart contracts are written in Solidity and deployed on Polygon and Avalanche. 
+
+Axelar was used to enable cross-chain pooling of liquidity and cross-chain disbursements.
+
+There are 3 main contracts:
+1. AxinsureOracle: This contract is responsible for fetching weather data . It is deployed on our host chain, Polygon.
+2. AxinsureCore: This contract is responsible for creating insurance policies, and for querying the oracle to issue payouts. It is deployed on our host chain, Polygon.
+3. AxinsureCollector: This contract is responsible for collecting funds from users and disbursing funds to the winners. It can be deployed on any chain.
+
+# Experiences with Axelar 
+1. Axelar was easy to integrate into the solidity code. A lot of abstraction has evidently been done to reduce the number of lines of code that has to be used. 
+2. While the Axelar example code was very helpful, it was difficult to adapt it to use within our project as there was no clean template which we could easily integrate from. Instead, our team had to cherry pick different aspects of the code that were relevant to our use case.
+3. The aUSDC faucet on Discord was difficult to use as it was rate limited to every 12 hours, and only issued tokens on one chain. Additionally, aUSDC on the different chains were not verified, meaning that we were required to manually craft transactions to call approvals on the aUSDC contract.
+Transaction: https://testnet.axelarscan.io/gmp/0xd6f4be3674975626415f2a8fb66fd3231c745ab36dd3679237106512840418bb
+
 
 ## Contracts and Deployment
 
