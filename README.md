@@ -4,33 +4,54 @@ Axinsure is a new DeFi primitive that enables the easy creation of peer-to-peer 
 
 With Axinsure, anybody can use insurance products from any chain, without having to worry about the underlying technology.
 
-Users can also become insurers, creating automatic, cross-chain disbursements based on changes that happened in the real world.  
+Users can also become insurers, creating automatic, cross-chain disbursements based on changes that happened in the real world.
 
-# Problem 
+# Problem
+
 Our proof-of-concept highlights a potential use case in agriculture to increase accessibility of weather insurance for farmers.
 
 # Potential Use Cases
+
 1. Weather Insurance: Farmers are able to buy insurance for their crops based on weather conditions.
 2. Peer-to-peer bets: Users can bet on the outcome of an event, and the winner is automatically paid out. e.g. Balaji BTC to 1 million bet.
 
-# How It Works
-The frontend is built using Thirdweb and React. 
+# Full Description
 
-The smart contracts are written in Solidity and deployed on Polygon and Avalanche. 
+The problem with traditional insurance systems is that they are often centralized, which can lead to issues with transparency, trust, and high fees which will be inaccessible for most people.
 
-Axelar was used to enable cross-chain pooling of liquidity and cross-chain disbursements.
+This is where Axinsure comes in, offering a decentralized and cross-chain solution to the problem of insurance accessibility. With Axinsure, anyone can create and participate in insurance products, without having to worry about the underlying technology or chain.
+
+One potential use case for Axinsure is in agriculture, where farmers may struggle to access weather insurance products. Traditional insurance systems often have high fees and may not be tailored to the specific needs of individual farmers, making it difficult for them to protect their crops from the risks of weather-related damage.
+
+Using Axinsure, farmers can easily buy weather insurance that is specifically designed for their needs, without having to go through a centralized insurance provider. This means they can access insurance products that are tailored to their specific needs, while also benefiting from the security and transparency of a decentralized system.
+
+Another potential use case for Axinsure is in peer-to-peer betting, where users can bet on the outcome of an event and receive automatic payouts. This type of betting is becoming increasingly popular, but traditional platforms often suffer from issues of trust and transparency.
+
+Axinsure solves this problem by using cross-chain messaging to create a secure and transparent betting system that is governed by cryptographic guarantees. Users can place bets knowing that their funds are secure and that the system will automatically payout the winner based on the outcome of the event.
+
+Overall, Axinsure represents an innovative solution to the problem of insurance accessibility, using cross-chain messaging to create a decentralized and transparent system that is accessible to anyone. Its potential use cases in agriculture and peer-to-peer betting demonstrate the versatility and potential of the platform, as it continues to push the boundaries of what is possible in the blockchain space.
+
+# Technical Description
+
+The frontend is built using **Thirdweb** and React.
+
+The smart contracts are written in Solidity and deployed on Polygon and Avalanche using **Thirdweb**.
+
+**Axelar** was used to enable cross-chain pooling of liquidity and cross-chain disbursements.
 
 There are 3 main contracts:
-1. AxinsureOracle: This contract is responsible for fetching weather data . It is deployed on our host chain, Polygon.
-2. AxinsureCore: This contract is responsible for creating insurance policies, and for querying the oracle to issue payouts. It is deployed on our host chain, Polygon.
-3. AxinsureCollector: This contract is responsible for collecting funds from users and disbursing funds to the winners. It can be deployed on any chain.
 
-# Experiences with Axelar 
-1. Axelar was easy to integrate into the solidity code. A lot of abstraction has evidently been done to reduce the number of lines of code that has to be used. 
+1. `AxinsureOracle`: This contract is an oracle responsible for fetching offchain weather data using Chainlink Automation. It is deployed on our host chain, Polygon.
+2. `AxinsureCore`: This contract is responsible for creating insurance policies, and for querying the oracle to issue payouts. It is deployed on our host chain, Polygon.
+3. `AxinsureCollector`: This contract is responsible for collecting funds from users and disbursing funds to the winners. It can be deployed on any chain.
+
+# Experiences with Axelar
+
+1. Axelar was easy to integrate into the solidity code. A lot of abstraction has evidently been done to reduce the number of lines of code that has to be used.
 2. While the Axelar example code was very helpful, it was difficult to adapt it to use within our project as there was no clean template which we could easily integrate from. Instead, our team had to cherry pick different aspects of the code that were relevant to our use case.
 3. The aUSDC faucet on Discord was difficult to use as it was rate limited to every 12 hours, and only issued tokens on one chain. Additionally, aUSDC on the different chains were not verified, meaning that we were required to manually craft transactions to call approvals on the aUSDC contract.
-Transaction: https://testnet.axelarscan.io/gmp/0xd6f4be3674975626415f2a8fb66fd3231c745ab36dd3679237106512840418bb
 
+**Axelar Transaction** : https://testnet.axelarscan.io/gmp/0xd6f4be3674975626415f2a8fb66fd3231c745ab36dd3679237106512840418bb
 
 ## Contracts and Deployment
 
