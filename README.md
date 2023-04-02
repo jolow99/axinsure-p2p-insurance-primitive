@@ -61,10 +61,16 @@ npm run start
 4. Deploy singular contract on Testnet
 
 ```bash
-npx hardhat run scripts/deploy.ts --network polygon_mumbai
+npx hardhat run scripts/deploy.js --network polygon_mumbai
 ```
 
-Deploy AxinsureCollector contract on Multichain
+Or using BuildBear
+
+```bash
+npx hardhat run scripts/deploy.js --network buildbear
+```
+
+5. Deploy AxinsureCollector contract on Multichain
 
 ```bash
 npm run deploy-hardhat local
@@ -78,7 +84,7 @@ To deploy on testnet, run
 npm run deploy-hardhat testnet
 ```
 
-5. Execute function in AxinsureCollector contract deployed across chains with Axelar
+6. Execute function in AxinsureCollector contract deployed across chains with Axelar
 
 ```bash
 npm run execute local "Avalanche" "Fantom" 100 0xBa86A5719722B02a5D5e388999C25f3333c7A9fb
