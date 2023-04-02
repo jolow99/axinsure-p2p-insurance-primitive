@@ -1,6 +1,22 @@
-# axinsure-p2p-insurance-primitive# axinsure-p2p-insurance-primitive
+# Introduction
 
-### Setup
+Axinsure is a new DeFi primitive that enables the easy creation of peer-to-peer insurance protocols.
+
+With Axinsure, anybody can use insurance products from any chain, without having to worry about the underlying technology.
+
+Users can also become insurers, creating automatic, cross-chain disbursements based on changes that happened in the real world.  
+
+# Problem 
+Our proof-of-concept highlights a potential use case in agriculture to increase accessibility of weather insurance for farmers.
+
+# Potential Use Cases
+1. Weather Insurance: Farmers are able to buy insurance for their crops based on weather conditions.
+2. Peer-to-peer bets: Balaji 1million btc, or sports betting
+
+# How It Works
+The technology is built using Chainlink Functions and  Automations for off-chain monitoring of events, Axelar for cross-chain pooling of liquidity, and Thirdweb for deployment across multiple chains.
+
+# How To Run Locally
 
 1. Git clone
 2. Install Dependencies
